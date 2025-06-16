@@ -6,14 +6,10 @@ const bibliot3ca = {
   // Este es un array que almacena los préstamos de libros de La Bibliot3ca
   prestamos: [],
 
-  // FUNCION 1: Esta función pregunta por el nombre del lector y el título del libro,
+  // FUNCION 1: Esta función usa los parámtros lector y libro de la opción 1 en elegirOpcion()
   // y agrega un nuevo préstamo al array de préstamos (al final de la lista).
-  agregarPrestamo() {
-    const lector = prompt("Ingresá el nombre del lector:").toUpperCase();
-    const libro = prompt("Ingresá el título del libro:").toUpperCase();
-
+  agregarPrestamo(lector, libro) {
     bibliot3ca.prestamos.push({ lector, libro });
-
     alert(`Préstamo registrado: ${lector} tiene el libro "${libro}" de préstamo.`);
   },
 
@@ -33,7 +29,7 @@ const bibliot3ca = {
   // Si encuentra un préstamo, muestra el nombre del lector y el título del libro.
   // Si no encuentra ningún préstamo, muestra un mensaje de error.
 
-  buscarPrestamo() {
+  buscarPrestamo(lectorBuscado) {
     const lectorBuscado = prompt("Ingresá el nombre del lector a buscar:").toUpperCase();
     const prestamos = bibliot3ca.prestamos;
     let encontrado = false;
@@ -83,7 +79,9 @@ function appBiblio() {
     const opcion = elegirOpcion();
     switch (opcion) {
       case 1:
-        bibliot3ca.agregarPrestamo();
+        const lector = prompt("Ingresá el nombre del lector:").toUpperCase();
+        const libro = prompt("Ingresá el título del libro:").toUpperCase();
+        bibliot3ca.agregarPrestamo(lector, libro);
         break;
       case 2:
         bibliot3ca.devolverLibro();
