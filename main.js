@@ -41,7 +41,7 @@ const bibliot3ca = {
     for (let i = 0; i < prestamos.length; i++) {
       if (prestamos[i].lector === lectorBuscado) {
         alert(
-          `${prestamos[i].lector} tiene prestado el libro "${prestamos[i].libro}" en la posición ${i + 1} de la lista.`
+          `${prestamos[i].lector} tiene prestado el libro "${prestamos[i].libro}" y no hay otras ediciones disponibles por ahora.`
         );
         encontrado = true;
         break;
