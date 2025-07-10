@@ -61,7 +61,7 @@ const vaciarReserva = () => {
   guardarReserva(); // Guardar el array vacío en localStorage
   mostrarReservas();
   mostrarTotalReserva();
-  const divAgradecimiento = document.getElementById("agradeciminento");
+  const divAgradecimiento = document.getElementById("agradecimiento");
   divAgradecimiento.innerText = "No hay reservas activas. ¡Esperamos verte pronto!";
   const divUltimoPokemonAgregado = document.getElementById("ultimoPokemonAgregado");
   divUltimoPokemonAgregado.innerText = [];
@@ -105,9 +105,27 @@ filtroTipo.addEventListener("change", () => {
 });
 
 const confirmarReserva = (nombreHumano, email) => {
-  const divAgradecimiento = document.getElementById("agradeciminento");
-  vaciarReserva(); // Limpiar la reserva activa
-  divAgradecimiento.innerHTML = `¡Gracias ${nombreHumano} por tu reserva! Tus pokemones están listos para hospedarse y pasar unas lindas vacaciones en nuestro hotel. ♥️<br>Te estaremos enviando un correo a <em>${email}</em> con los detalles de tu reserva.`;
+  const divAgradecimiento = document.getElementById("agradecimiento");
+
+  // Crear el mensaje de agradecimiento
+  let mensaje = `¡Gracias ${nombreHumano} por tu reserva! Tus pokemones están listos para hospedarse y pasar unas lindas vacaciones en nuestro hotel. ♥️<br>Te estaremos enviando un correo a <em>${email}</em> con los detalles de tu reserva.<br><br>`;
+
+  // Agregar los pokémon registrados como huéspedes
+  if (reservaActiva.length > 0) {
+    mensaje += `<strong>Estos son los pokemones que registraste como huéspedes:</strong><ul>`;
+    reservaActiva.forEach((huesped) => {
+      mensaje += `<li>${huesped.nombre}</li>`;
+    });
+    mensaje += `</ul>`;
+  } else {
+    mensaje += `<em>No registraste ningún Pokémon como huésped.</em>`;
+  }
+
+  // Mostrar mensaje
+  divAgradecimiento.innerHTML = mensaje;
+
+  // // Limpiar reserva después de mostrarla
+  // vaciarReserva();
 };
 
 formularioConfirmarReserva.addEventListener("submit", (e) => {
