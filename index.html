@@ -15,7 +15,7 @@
 			<div class="navbar-right">
 				<button id="darkModeToggle">☀️ / 🌚</button>
 				<a href="https://github.com/MarVergara/ch-js-project" target="_blank" aria-label="GitHub"
-					style="color: inherit;">
+					style="color: inherit">
 					<svg height="32" width="32" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
 						<path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 
             6.53 5.47 7.59.4.07.55-.17.55-.38 
@@ -47,49 +47,48 @@
 			<option value="planta">🌱 Planta</option>
 		</select>
 
-
 		<section class="pokemon-lista">
 			<h3>Pokémon que hospedamos actualmente</h3>
-			<ol id="listaPokemones">
-			</ol>
+			<ol id="listaPokemones"></ol>
 		</section>
 
 		<section class="reservas-activas">
 			<div>
 				<h3>Reservas activas</h3>
 				<p>Estos son los pokemones que quieres hosperdar.</p>
-				<ol id="listaReservas">
-				</ol>
+				<ol id="listaReservas"></ol>
 				<div id="ultimoPokemonAgregado"></div>
-
 			</div>
 			<section>
 				<h4>Confirmación de reserva</h4>
 				<div id="totalReserva"></div>
 				<div class="bloque-formulariRoeserva">
 					<p>Necesitamos registrar tus datos para confirmar la compra:</p>
-					<form id="formularioReserva">
-						<label for="nombreHumano">Tu nombre completo:</label>
-						<input type="text" id="nombreHumano" name="nombreHumano" required />
-						<!-- <label for="cantidadNoches">C≈antidad de noches:</label>
-						<input type="number" id="cantidadNoches" name="cantidadNoches" min="1" value="1" required /> -->
-						<label for="email">Tu email:</label>
-						<input type="email" id="email" name="email" required />
-						<label for="telefono">Tu teléfono:</label>
-						<input type="tel" id="telefono" name="telefono" />
-						<!-- Confirmar reserva: -->
-						<input type="submit" id="btnConfirmarReserva" value="Confirmar reserva" />
+					<form id="formularioReserva" class="formulario-reserva">
+						<div class="form-group">
+							<label for="nombreHumano">Tu nombre completo:</label>
+							<input type="text" id="nombreHumano" name="nombreHumano" required />
+						</div>
+
+						<div class="form-group">
+							<label for="email">Tu email:</label>
+							<input type="email" id="email" name="email" required />
+						</div>
+
+						<div class="form-group">
+							<label for="telefono">Tu teléfono:</label>
+							<input type="tel" id="telefono" name="telefono" />
+						</div>
+
+						<div class="form-buttons">
+							<input type="submit" id="btnConfirmarReserva" value="Confirmar reserva" />
+						</div>
 					</form>
-				</div>
+				</div>s
 				<div id="agradeciminento"></div>
-				<div><button id="btnVaciarReserva">Vaciar
-						reserva</button>
-				</div>
-
-
+				<div><button id="btnVaciarReserva">Vaciar reserva</button></div>
 			</section>
 		</section>
-
 	</main>
 
 	<script src="poke-hotel.js"></script>
