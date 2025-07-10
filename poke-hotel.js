@@ -23,6 +23,9 @@ const huespedes = [
 let reservaActiva = JSON.parse(localStorage.getItem("reservaActiva")) || [];
 
 const listaPokemones = document.getElementById("listaPokemones");
+
+const filtroTipo = document.getElementById("filtroTipo");
+
 const listaReservas = document.getElementById("listaReservas");
 const formularioConfirmarReserva = document.getElementById("formularioReserva");
 const btnVaciarReserva = document.getElementById("btnVaciarReserva");
@@ -71,43 +74,35 @@ const agregarReserva = (huesped) => {
   guardarReserva();
 };
 
-// ########### HOSPEDAMOS POKEMONES ###########
-// const listaPokemones = document.getElementById("listaPokemones");
-
-// console.dir(listaPokemones);
-
-// function agregarHuesped() {
-//   listaPokemones.innerHTML = "";
-//   huespedes.forEach((huesped) => {
-//     listaPokemones.innerHTML += `<li id=pm${huesped.id}>${huesped.nombre} - $${huesped.precioPorNoche} por noche</li>`;
-//   });
-// }
-
-function mostrarHuespedes() {
+function mostrarHuespedes(tipo = "todos") {
   listaPokemones.innerHTML = "";
-  huespedes.forEach((huesped) => {
-    // Crear un elemento li para cada huesped
+
+  const huespedesFiltrados = tipo === "todos" ? huespedes : huespedes.filter((h) => h.tipo === tipo);
+
+  huespedesFiltrados.forEach((huesped) => {
     const li = document.createElement("li");
     const div = document.createElement("div");
     const btn = document.createElement("button");
 
-    // Asignar atributos y texto a los elementos
     li.id = huesped.id;
     li.innerText = `${huesped.nombre} - $${huesped.precioPorNoche} por noche`;
     btn.innerText = "Reservar";
-    // Agregar el huesped a la reserva activa
+
     btn.addEventListener("click", () => {
       agregarReserva(huesped);
       const divUltimoPokemonAgregado = document.getElementById("ultimoPokemonAgregado");
       divUltimoPokemonAgregado.innerText = `¡${huesped.nombre} ha sido agregado a tu reserva!`;
     });
 
-    // Agregar al DOM
     li.appendChild(div);
     div.appendChild(btn);
     listaPokemones.appendChild(li);
   });
 }
+
+filtroTipo.addEventListener("change", () => {
+  mostrarHuespedes(filtroTipo.value);
+});
 
 const confirmarReserva = (nombreHumano, email) => {
   const divAgradecimiento = document.getElementById("agradeciminento");
