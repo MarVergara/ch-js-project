@@ -38,14 +38,15 @@
 			<h1 id="indexH1">Hotel PokeCasa 🏨</h1>
 			<h2>Un lugar cómodo y seguro para que tus Pokémon descansen</h2>
 		</header>
-
-		<label for="filtroTipo">Filtrar por tipo:</label>
-		<select id="filtroTipo">
-			<option value="todos">Todos</option>
-			<option value="fuego">🔥 Fuego</option>
-			<option value="agua">💧 Agua</option>
-			<option value="planta">🌱 Planta</option>
-		</select>
+		<section class="buttons">
+			<label for="filtroTipo">Filtrar por tipo:</label>
+			<select id="filtroTipo">
+				<option value="todos">Todos</option>
+				<option value="fuego">🔥 Fuego</option>
+				<option value="agua">💧 Agua</option>
+				<option value="planta">🌱 Planta</option>
+			</select>
+		</section>
 
 		<section class="pokemon-lista">
 			<h3>Pokémon que hospedamos actualmente</h3>
@@ -58,9 +59,10 @@
 				<p>Estos son los pokemones que quieres hosperdar.</p>
 				<ol id="listaReservas"></ol>
 				<div id="ultimoPokemonAgregado"></div>
+				<div><button id="btnVaciarReserva">Vaciar reserva</button></div>
 			</div>
 			<section>
-				<h4>Confirmación de reserva</h4>
+				<h4>Confirmá tu reserva</h4>
 				<div id="totalReserva"></div>
 				<div class="bloque-formulariRoeserva">
 					<p>Necesitamos registrar tus datos para confirmar la compra:</p>
@@ -80,13 +82,13 @@
 							<input type="tel" id="telefono" name="telefono" />
 						</div>
 
-						<div class="form-buttons">
+						<div class="buttons form-buttons">
 							<input type="submit" id="btnConfirmarReserva" value="Confirmar reserva" />
 						</div>
 					</form>
-				</div>s
+				</div>
 				<div id="agradeciminento"></div>
-				<div><button id="btnVaciarReserva">Vaciar reserva</button></div>
+
 			</section>
 		</section>
 	</main>
