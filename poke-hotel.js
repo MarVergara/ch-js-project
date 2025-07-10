@@ -1,0 +1,154 @@
+// ############# Poke Hotel - Hospedaje de Pokémon #############
+
+const huespedes = [
+  { nombre: "Charmander 🔥", tipo: "fuego", id: 4, precioPorNoche: 50 },
+  { nombre: "Vulpix 🔥", tipo: "fuego", id: 37, precioPorNoche: 45 },
+  { nombre: "Growlithe 🔥", tipo: "fuego", id: 58, precioPorNoche: 55 },
+  { nombre: "Ponyta 🔥", tipo: "fuego", id: 77, precioPorNoche: 40 },
+  { nombre: "Magmar 🔥", tipo: "fuego", id: 126, precioPorNoche: 60 },
+
+  { nombre: "Squirtle 💧", tipo: "agua", id: 7, precioPorNoche: 45 },
+  { nombre: "Psyduck 💧", tipo: "agua", id: 54, precioPorNoche: 50 },
+  { nombre: "Poliwag 💧", tipo: "agua", id: 60, precioPorNoche: 40 },
+  { nombre: "Horsea 💧", tipo: "agua", id: 116, precioPorNoche: 50 },
+  { nombre: "Staryu 💧", tipo: "agua", id: 120, precioPorNoche: 35 },
+
+  { nombre: "Bulbasaur 🌱", tipo: "planta", id: 1, precioPorNoche: 45 },
+  { nombre: "Oddish 🌱", tipo: "planta", id: 43, precioPorNoche: 35 },
+  { nombre: "Bellsprout 🌱", tipo: "planta", id: 69, precioPorNoche: 30 },
+  { nombre: "Exeggcute 🌱", tipo: "planta", id: 102, precioPorNoche: 40 },
+  { nombre: "Tangela 🌱", tipo: "planta", id: 114, precioPorNoche: 50 },
+];
+
+let reservaActiva = JSON.parse(localStorage.getItem("reservaActiva")) || [];
+
+const listaPokemones = document.getElementById("listaPokemones");
+const listaReservas = document.getElementById("listaReservas");
+const formularioConfirmarReserva = document.getElementById("formularioReserva");
+const btnVaciarReserva = document.getElementById("btnVaciarReserva");
+
+const calcularTotalAPagar = () => {
+  let total = reservaActiva.reduce((suma, pokemon) => {
+    return (suma += pokemon.precioPorNoche);
+  }, 0);
+  return total;
+};
+
+const mostrarTotalReserva = () => {
+  const divTotalReserva = document.getElementById("totalReserva");
+  divTotalReserva.innerText = `El total que deberás pagar por tu reserva es de $${calcularTotalAPagar()}.`;
+};
+
+const guardarReserva = () => {
+  const reservaActivaJSON = JSON.stringify(reservaActiva);
+  localStorage.setItem("reservaActiva", reservaActivaJSON);
+};
+
+const mostrarReservas = () => {
+  listaReservas.innerHTML = ""; // Limpiar la lista antes de mostrar las reservas
+  reservaActiva.forEach((huesped) => {
+    const li = document.createElement("li");
+    li.innerHTML = `${huesped.nombre} - $${huesped.precioPorNoche} por noche`;
+    listaReservas.appendChild(li);
+  });
+};
+
+const vaciarReserva = () => {
+  reservaActiva = []; // Vaciar el array de reservas
+  guardarReserva(); // Guardar el array vacío en localStorage
+  mostrarReservas();
+  mostrarTotalReserva();
+  const divAgradecimiento = document.getElementById("agradeciminento");
+  divAgradecimiento.innerText = "No hay reservas activas. ¡Esperamos verte pronto!";
+  const divUltimoPokemonAgregado = document.getElementById("ultimoPokemonAgregado");
+  divUltimoPokemonAgregado.innerText = [];
+};
+
+const agregarReserva = (huesped) => {
+  reservaActiva.push(huesped);
+  mostrarReservas();
+  mostrarTotalReserva();
+  guardarReserva();
+};
+
+// ########### HOSPEDAMOS POKEMONES ###########
+// const listaPokemones = document.getElementById("listaPokemones");
+
+// console.dir(listaPokemones);
+
+// function agregarHuesped() {
+//   listaPokemones.innerHTML = "";
+//   huespedes.forEach((huesped) => {
+//     listaPokemones.innerHTML += `<li id=pm${huesped.id}>${huesped.nombre} - $${huesped.precioPorNoche} por noche</li>`;
+//   });
+// }
+
+function mostrarHuespedes() {
+  listaPokemones.innerHTML = "";
+  huespedes.forEach((huesped) => {
+    // Crear un elemento li para cada huesped
+    const li = document.createElement("li");
+    const div = document.createElement("div");
+    const btn = document.createElement("button");
+
+    // Asignar atributos y texto a los elementos
+    li.id = huesped.id;
+    li.innerText = `${huesped.nombre} - $${huesped.precioPorNoche} por noche`;
+    btn.innerText = "Reservar";
+    // Agregar el huesped a la reserva activa
+    btn.addEventListener("click", () => {
+      agregarReserva(huesped);
+      const divUltimoPokemonAgregado = document.getElementById("ultimoPokemonAgregado");
+      divUltimoPokemonAgregado.innerText = `¡${huesped.nombre} ha sido agregado a tu reserva!`;
+    });
+
+    // Agregar al DOM
+    li.appendChild(div);
+    div.appendChild(btn);
+    listaPokemones.appendChild(li);
+  });
+}
+
+const confirmarReserva = (nombreHumano, email) => {
+  const divAgradecimiento = document.getElementById("agradeciminento");
+  vaciarReserva(); // Limpiar la reserva activa
+  divAgradecimiento.innerHTML = `¡Gracias ${nombreHumano} por tu reserva! Tus pokemones están listos para hospedarse y pasar unas lindas vacaciones en nuestro hotel. ♥️<br>Te estaremos enviando un correo a <em>${email}</em> con los detalles de tu reserva.`;
+};
+
+formularioConfirmarReserva.addEventListener("submit", (e) => {
+  e.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+
+  // const nombreHumano = document.getElementById("nombreHumano").value.toUpperCase();
+
+  // const nombreHumano = e.target[0].value.toUpperCase(); // Obtener el nombre del primer input del formulario
+
+  const information = new FormData(e.target);
+  const submit = Object.fromEntries(information);
+  console.log(submit);
+
+  confirmarReserva(submit.nombreHumano.toUpperCase(), submit.email);
+});
+
+btnVaciarReserva.addEventListener("click", vaciarReserva);
+
+mostrarHuespedes();
+mostrarReservas();
+mostrarTotalReserva();
+
+// ############### Dark Mode en navbar ###############
+
+//  Activa el modo oscuro al hacer clic en el botón del navbar
+const toggleBtn = document.getElementById("darkModeToggle");
+
+// 1. Apply dark mode if it's saved in localStorage
+if (localStorage.getItem("darkMode") === "true") {
+  document.body.classList.add("dark-mode");
+}
+
+// 2. Toggle dark mode and save preference
+toggleBtn.addEventListener("click", () => {
+  document.body.classList.toggle("dark-mode");
+
+  const isDarkMode = document.body.classList.contains("dark-mode");
+  localStorage.setItem("darkMode", isDarkMode);
+});

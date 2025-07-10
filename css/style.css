@@ -1,3 +1,38 @@
-h1 {
-    font-style: italic;
+/* base styles */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s, color 0.3s;
 }
+
+body.dark-mode {
+    background-color: #222;
+    color: #f0f0f0;
+}
+
+main {
+    padding: 2rem;
+}
+
+/* navbar styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #eee;
+    padding: 1rem;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.navbar button {
+    cursor: pointer;
+}
+
+
