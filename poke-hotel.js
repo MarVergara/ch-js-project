@@ -1,18 +1,18 @@
 // ############# Poke Hotel - Hospedaje de Pokémon #############
 
+// Lista de huéspedes disponibles
+
 const huespedes = [
   { nombre: "Charmander 🔥", tipo: "fuego", id: 4, precioPorNoche: 50 },
   { nombre: "Vulpix 🔥", tipo: "fuego", id: 37, precioPorNoche: 45 },
   { nombre: "Growlithe 🔥", tipo: "fuego", id: 58, precioPorNoche: 55 },
   { nombre: "Ponyta 🔥", tipo: "fuego", id: 77, precioPorNoche: 40 },
   { nombre: "Magmar 🔥", tipo: "fuego", id: 126, precioPorNoche: 60 },
-
   { nombre: "Squirtle 💧", tipo: "agua", id: 7, precioPorNoche: 45 },
   { nombre: "Psyduck 💧", tipo: "agua", id: 54, precioPorNoche: 50 },
   { nombre: "Poliwag 💧", tipo: "agua", id: 60, precioPorNoche: 40 },
   { nombre: "Horsea 💧", tipo: "agua", id: 116, precioPorNoche: 50 },
   { nombre: "Staryu 💧", tipo: "agua", id: 120, precioPorNoche: 35 },
-
   { nombre: "Bulbasaur 🌱", tipo: "planta", id: 1, precioPorNoche: 45 },
   { nombre: "Oddish 🌱", tipo: "planta", id: 43, precioPorNoche: 35 },
   { nombre: "Bellsprout 🌱", tipo: "planta", id: 69, precioPorNoche: 30 },
@@ -20,15 +20,17 @@ const huespedes = [
   { nombre: "Tangela 🌱", tipo: "planta", id: 114, precioPorNoche: 50 },
 ];
 
+// Variables de estado y elementos del DOM
+
 let reservaActiva = JSON.parse(localStorage.getItem("reservaActiva")) || [];
 
 const listaPokemones = document.getElementById("listaPokemones");
-
 const filtroTipo = document.getElementById("filtroTipo");
-
 const listaReservas = document.getElementById("listaReservas");
 const formularioConfirmarReserva = document.getElementById("formularioReserva");
 const btnVaciarReserva = document.getElementById("btnVaciarReserva");
+
+// Funciones auxiliares
 
 const calcularTotalAPagar = () => {
   let total = reservaActiva.reduce((suma, pokemon) => {
@@ -47,8 +49,10 @@ const guardarReserva = () => {
   localStorage.setItem("reservaActiva", reservaActivaJSON);
 };
 
+// Mostrar y actualizar lista de reservas
+
 const mostrarReservas = () => {
-  listaReservas.innerHTML = ""; // Limpiar la lista antes de mostrar las reservas
+  listaReservas.innerHTML = ""; // Limpia la lista antes de renderizar
   reservaActiva.forEach((huesped) => {
     const li = document.createElement("li");
     li.innerHTML = `${huesped.nombre} - $${huesped.precioPorNoche} por noche`;
@@ -56,9 +60,11 @@ const mostrarReservas = () => {
   });
 };
 
+// Vaciar la reserva activa
+
 const vaciarReserva = () => {
-  reservaActiva = []; // Vaciar el array de reservas
-  guardarReserva(); // Guardar el array vacío en localStorage
+  reservaActiva = [];
+  guardarReserva();
   mostrarReservas();
   mostrarTotalReserva();
   const divAgradecimiento = document.getElementById("agradecimiento");
@@ -67,12 +73,16 @@ const vaciarReserva = () => {
   divUltimoPokemonAgregado.innerText = [];
 };
 
+// Agregar huésped a la reserva
+
 const agregarReserva = (huesped) => {
   reservaActiva.push(huesped);
   mostrarReservas();
   mostrarTotalReserva();
   guardarReserva();
 };
+
+// Mostrar lista de huéspedes (filtrados por tipo)
 
 function mostrarHuespedes(tipo = "todos") {
   listaPokemones.innerHTML = "";
@@ -100,9 +110,13 @@ function mostrarHuespedes(tipo = "todos") {
   });
 }
 
+// Filtro por tipo de Pokémon
+
 filtroTipo.addEventListener("change", () => {
   mostrarHuespedes(filtroTipo.value);
 });
+
+// Confirmar reserva
 
 const confirmarReserva = (nombreHumano, email) => {
   const divAgradecimiento = document.getElementById("agradecimiento");
@@ -123,17 +137,12 @@ const confirmarReserva = (nombreHumano, email) => {
 
   // Mostrar mensaje
   divAgradecimiento.innerHTML = mensaje;
-
-  // // Limpiar reserva después de mostrarla
-  // vaciarReserva();
 };
 
+// Manejo del envío del formulario
+
 formularioConfirmarReserva.addEventListener("submit", (e) => {
-  e.preventDefault(); // Prevenir el comportamiento por defecto del formulario
-
-  // const nombreHumano = document.getElementById("nombreHumano").value.toUpperCase();
-
-  // const nombreHumano = e.target[0].value.toUpperCase(); // Obtener el nombre del primer input del formulario
+  e.preventDefault();
 
   const information = new FormData(e.target);
   const submit = Object.fromEntries(information);
@@ -142,7 +151,11 @@ formularioConfirmarReserva.addEventListener("submit", (e) => {
   confirmarReserva(submit.nombreHumano.toUpperCase(), submit.email);
 });
 
+// Botón para vaciar la reserva
+
 btnVaciarReserva.addEventListener("click", vaciarReserva);
+
+// Inicializar página con datos guardados
 
 mostrarHuespedes();
 mostrarReservas();
@@ -150,15 +163,15 @@ mostrarTotalReserva();
 
 // ############### Dark Mode en navbar ###############
 
-//  Activa el modo oscuro al hacer clic en el botón del navbar
+// Activa el modo oscuro al hacer clic en el botón de la barra de navegación
 const toggleBtn = document.getElementById("darkModeToggle");
 
-// 1. Apply dark mode if it's saved in localStorage
+// Aplica el modo oscuro si está guardado en localStorage
 if (localStorage.getItem("darkMode") === "true") {
   document.body.classList.add("dark-mode");
 }
 
-// 2. Toggle dark mode and save preference
+// Alterna el modo oscuro y guarda la preferencia
 toggleBtn.addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
 

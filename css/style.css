@@ -35,16 +35,19 @@ main {
     cursor: pointer;
 }
 
+body.dark-mode .navbar {
+    background-color: #333;
+    border: 2px solid #555;
+}
+
+/* form styles */
 
 .formulario-reserva {
     border: 2px solid #ccc;
-    /* Color gris claro */
+
     border-radius: 8px;
-    /* Bordes redondeados */
     padding: 1.5rem;
-    /* Espacio interior */
     background-color: #f9f9f9;
-    /* Fondo suave */
 }
 
 body.dark-mode .formulario-reserva {
@@ -60,7 +63,6 @@ body.dark-mode .formulario-reserva {
 .buttons {
     display: flex;
     justify-content: flex-end;
-    /* Alinea los botones a la derecha */
     gap: 1rem;
 }
 
