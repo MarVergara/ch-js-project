@@ -1,6 +1,6 @@
-// ############# Poke Hotel - Hospedaje de Pokémon #############
+// ############# Poke Hotel - Hospedaje de Pokemon #############
 
-// Lista de huéspedes disponibles
+// Lista de huéspedes (pokemon) que aceptamos en el hotel
 
 const huespedes = [
   { nombre: "Charmander 🔥", tipo: "fuego", id: 4, precioPorNoche: 50 },
@@ -20,18 +20,20 @@ const huespedes = [
   { nombre: "Tangela 🌱", tipo: "planta", id: 114, precioPorNoche: 50 },
 ];
 
-// Variables de estado y elementos del DOM
+// #### Variables y elementos del DOM ####
 
-let reservaActiva = JSON.parse(localStorage.getItem("reservaActiva")) || [];
+let reservaActiva = JSON.parse(localStorage.getItem("reservaActiva")) || []; // Carga la reserva guardada o arranca con una vacía
 
+// Elementos que se actualizan en la UI
 const listaPokemones = document.getElementById("listaPokemones");
 const filtroTipo = document.getElementById("filtroTipo");
 const listaReservas = document.getElementById("listaReservas");
 const formularioConfirmarReserva = document.getElementById("formularioReserva");
 const btnVaciarReserva = document.getElementById("btnVaciarReserva");
 
-// Funciones auxiliares
+// #### Funciones auxiliares ####
 
+// Suma los precios por noche de los pokemon actualmente en la reserva
 const calcularTotalAPagar = () => {
   let total = reservaActiva.reduce((suma, pokemon) => {
     return (suma += pokemon.precioPorNoche);
@@ -39,20 +41,23 @@ const calcularTotalAPagar = () => {
   return total;
 };
 
+// Muestra el total calculado en pantalla
 const mostrarTotalReserva = () => {
   const divTotalReserva = document.getElementById("totalReserva");
   divTotalReserva.innerText = `El total que deberás pagar por tu reserva es de $${calcularTotalAPagar()}.`;
 };
 
+// Guarda la reserva actual en el localStorage
 const guardarReserva = () => {
   const reservaActivaJSON = JSON.stringify(reservaActiva);
   localStorage.setItem("reservaActiva", reservaActivaJSON);
 };
 
-// Mostrar y actualizar lista de reservas
+// #### Mostrar y actualizar lista de reservas ####
 
+// Muestra en pantalla todos los pokemon agregados a la reserva
 const mostrarReservas = () => {
-  listaReservas.innerHTML = ""; // Limpia la lista antes de renderizar
+  listaReservas.innerHTML = ""; // Limpia lista anterior
   reservaActiva.forEach((huesped) => {
     const li = document.createElement("li");
     li.innerHTML = `${huesped.nombre} - $${huesped.precioPorNoche} por noche`;
@@ -60,8 +65,9 @@ const mostrarReservas = () => {
   });
 };
 
-// Vaciar la reserva activa
+// #### Vaciar la reserva activa ####
 
+// Reinicia el array, actualiza la UI y borra del localStorage
 const vaciarReserva = () => {
   reservaActiva = [];
   guardarReserva();
@@ -73,8 +79,9 @@ const vaciarReserva = () => {
   divUltimoPokemonAgregado.innerText = [];
 };
 
-// Agregar huésped a la reserva
+// #### Agregar huésped a la reserva ####
 
+// Agrega un pokemon a la reserva y actualiza todo lo necesario
 const agregarReserva = (huesped) => {
   reservaActiva.push(huesped);
   mostrarReservas();
@@ -82,8 +89,9 @@ const agregarReserva = (huesped) => {
   guardarReserva();
 };
 
-// Mostrar lista de huéspedes (filtrados por tipo)
+// #### Mostrar lista de huéspedes (filtrados por tipo) ####
 
+// Muestra todos los Pokemon según el tipo seleccionado (o todos)
 function mostrarHuespedes(tipo = "todos") {
   listaPokemones.innerHTML = "";
 
@@ -98,6 +106,7 @@ function mostrarHuespedes(tipo = "todos") {
     li.innerText = `${huesped.nombre} - $${huesped.precioPorNoche} por noche`;
     btn.innerText = "Reservar";
 
+    // Cuando se hace clic, se agrega a la reserva y se muestra un mensaje
     btn.addEventListener("click", () => {
       agregarReserva(huesped);
       const divUltimoPokemonAgregado = document.getElementById("ultimoPokemonAgregado");
@@ -110,37 +119,37 @@ function mostrarHuespedes(tipo = "todos") {
   });
 }
 
-// Filtro por tipo de Pokémon
+// #### Filtro por tipo de pokemon ####
 
+// Al cambiar el filtro, se actualiza la lista de huéspedes mostrados
 filtroTipo.addEventListener("change", () => {
   mostrarHuespedes(filtroTipo.value);
 });
 
-// Confirmar reserva
+// #### Confirmar reserva ####
 
+// Genera y muestra el mensaje final de confirmación de reserva
 const confirmarReserva = (nombreHumano, email) => {
   const divAgradecimiento = document.getElementById("agradecimiento");
 
-  // Crear el mensaje de agradecimiento
-  let mensaje = `¡Gracias ${nombreHumano} por tu reserva! Tus pokemones están listos para hospedarse y pasar unas lindas vacaciones en nuestro hotel. ♥️<br>Te estaremos enviando un correo a <em>${email}</em> con los detalles de tu reserva.<br><br>`;
+  let mensaje = `¡Gracias ${nombreHumano} por tu reserva! Tus pokemon están listos para hospedarse y pasar unas lindas vacaciones en nuestro hotel. ♥️<br>Te estaremos enviando un correo a <em>${email}</em> con los detalles de tu reserva.<br><br>`;
 
-  // Agregar los pokémon registrados como huéspedes
   if (reservaActiva.length > 0) {
-    mensaje += `<strong>Estos son los pokemones que registraste como huéspedes:</strong><ul>`;
+    mensaje += `<strong>Estos son los pokemon que registraste como huéspedes:</strong><ul>`;
     reservaActiva.forEach((huesped) => {
       mensaje += `<li>${huesped.nombre}</li>`;
     });
     mensaje += `</ul>`;
   } else {
-    mensaje += `<em>No registraste ningún Pokémon como huésped.</em>`;
+    mensaje += `<em>No registraste ningún pokemon como huésped.</em>`;
   }
 
-  // Mostrar mensaje
   divAgradecimiento.innerHTML = mensaje;
 };
 
-// Manejo del envío del formulario
+// ### Manejo del envío del formulario ####
 
+// Captura los datos del formulario y llama a confirmarReserva
 formularioConfirmarReserva.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -152,10 +161,9 @@ formularioConfirmarReserva.addEventListener("submit", (e) => {
 });
 
 // Botón para vaciar la reserva
-
 btnVaciarReserva.addEventListener("click", vaciarReserva);
 
-// Inicializar página con datos guardados
+// #### Inicializar página con datos guardados ####
 
 mostrarHuespedes();
 mostrarReservas();
