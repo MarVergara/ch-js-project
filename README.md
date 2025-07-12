@@ -22,7 +22,7 @@
 - (Activá el modo oscuro si lo preferís)
 
 
-## 📸 Vista previa
+## 📸 Vista pages
 
-![GiHub page](https://marvergara.github.io/ch-js-project/)  
+- [GiHub page](https://marvergara.github.io/ch-js-project/)  
 
