@@ -15,7 +15,6 @@ const bibliot3ca = {
 
   // FUNCION 2: Devolver el primer libro prestado de la lista.
   // Si no hay libros prestados, muestra un mensaje de error.
-
   devolverLibro() {
     if (bibliot3ca.prestamos.length === 0) {
       alert("No hay libros prestados para devolver.");
@@ -28,8 +27,7 @@ const bibliot3ca = {
   // FUNCION 3: Esta función busca un préstamo por el nombre del lector.
   // Si encuentra un préstamo, muestra el nombre del lector y el título del libro.
   // Si no encuentra ningún préstamo, muestra un mensaje de error.
-
-  buscarPrestamo(lectorBuscado) {
+  buscarPrestamo() {
     const lectorBuscado = prompt("Ingresá el nombre del lector a buscar:").toUpperCase();
     const prestamos = bibliot3ca.prestamos;
     let encontrado = false;
@@ -51,7 +49,6 @@ const bibliot3ca = {
 };
 
 // FUNCION 4: Está función le muestra las opciones al usuario y le deja elegir una entre 1 y 4.
-
 function elegirOpcion() {
   let opcionElegida;
 
@@ -71,10 +68,10 @@ function elegirOpcion() {
 }
 
 // FUNCION 5: Esta función inicia la aplicación y muestra un mensaje de bienvenida. Dependiendo de la opción elegida por el usuario, llama a una función específica de bibliot3ca.
-
 function appBiblio() {
   alert("Bienvenido a La Bibliot3ca.\n" + "La biobliteca de libros prestados más cool del mundo. 😎");
   let appBiblioActiva = true;
+
   while (appBiblioActiva) {
     const opcion = elegirOpcion();
     switch (opcion) {
@@ -94,6 +91,7 @@ function appBiblio() {
         break;
     }
   }
+
   alert("Gracias por visitar La Bibliot3ca más cool del mundo.\n" + "¡Hasta la próxima!👋");
 }
 
