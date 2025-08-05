@@ -78,8 +78,9 @@ const vaciarReserva = () => {
   guardarReserva();
   mostrarReservas();
   mostrarTotalReserva();
-
   mostrarHuespedes();
+
+  mostrarToast("Reserva vaciada", "#f44336");
 
   const divAgradecimiento = document.getElementById("agradecimiento");
   divAgradecimiento.innerText = "No hay reservas activas. ¡Esperamos verte pronto!";
@@ -154,12 +155,12 @@ function mostrarHuespedes(tipo = "todos") {
     btnPlus.setAttribute("aria-label", `Sumar noches a ${huesped.nombre}`);
     btnPlus.style.marginLeft = "6px";
 
-    // Handlers
     btnPlus.addEventListener("click", () => {
       sumarNoches(huesped);
-      // actualizar contador visible para este li
       const registro = reservaActiva.find((r) => r.id === huesped.id);
       spanNoches.innerText = registro ? registro.noches : 0;
+
+      mostrarToast(`+1 noche para ${huesped.nombre}`);
 
       const divUltimoPokemonAgregado = document.getElementById("ultimoPokemonAgregado");
       const noches = registro ? registro.noches : 0;
@@ -172,6 +173,8 @@ function mostrarHuespedes(tipo = "todos") {
       restarNoches(huesped);
       const registro = reservaActiva.find((r) => r.id === huesped.id);
       spanNoches.innerText = registro ? registro.noches : 0;
+
+      mostrarToast(`-1 noche para ${huesped.nombre}`, "#f44336");
 
       const divUltimoPokemonAgregado = document.getElementById("ultimoPokemonAgregado");
       if (registro) {
@@ -265,3 +268,14 @@ toggleBtn.addEventListener("click", () => {
   const isDarkMode = document.body.classList.contains("dark-mode");
   localStorage.setItem("darkMode", isDarkMode);
 });
+
+// ############### Toastify para notificaciones ###############
+function mostrarToast(mensaje, color = "#4CAF50") {
+  Toastify({
+    text: mensaje,
+    duration: 2000,
+    gravity: "top", // left, center o right
+    backgroundColor: color,
+    stopOnFocus: true,
+  }).showToast();
+}
