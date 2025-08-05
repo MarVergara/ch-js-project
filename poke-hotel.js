@@ -22,9 +22,9 @@ const huespedes = [
 
 // #### Variables y elementos del DOM ####
 
-let reservaActiva = JSON.parse(localStorage.getItem("reservaActiva")) || []; // Carga la reserva guardada o arranca con una vacía
+// reservaActiva guarda objetos con { nombre, tipo, id, precioPorNoche, noches }
+let reservaActiva = JSON.parse(localStorage.getItem("reservaActiva")) || [];
 
-// Elementos que se actualizan en la UI
 const listaPokemones = document.getElementById("listaPokemones");
 const filtroTipo = document.getElementById("filtroTipo");
 const listaReservas = document.getElementById("listaReservas");
@@ -33,33 +33,26 @@ const btnVaciarReserva = document.getElementById("btnVaciarReserva");
 
 // #### Funciones auxiliares ####
 
-// Suma los precios por noche * noches de los pokemon actualmente en la reserva
 const calcularTotalAPagar = () => {
-  let total = reservaActiva.reduce((suma, pokemon) => {
-    // calcular subtotal por pokemon: precioPorNoche * noches
+  return reservaActiva.reduce((suma, pokemon) => {
     const noches = pokemon.noches || 1;
     return suma + pokemon.precioPorNoche * noches;
   }, 0);
-  return total;
 };
 
-// Muestra el total calculado en pantalla
 const mostrarTotalReserva = () => {
   const divTotalReserva = document.getElementById("totalReserva");
   divTotalReserva.innerText = `El total que deberás pagar por tu reserva es de $${calcularTotalAPagar()}.`;
 };
 
-// Guarda la reserva actual en el localStorage
 const guardarReserva = () => {
-  const reservaActivaJSON = JSON.stringify(reservaActiva);
-  localStorage.setItem("reservaActiva", reservaActivaJSON);
+  localStorage.setItem("reservaActiva", JSON.stringify(reservaActiva));
 };
 
 // #### Mostrar y actualizar lista de reservas ####
 
-// Muestra en pantalla todos los pokemon agregados a la reserva
 const mostrarReservas = () => {
-  listaReservas.innerHTML = ""; // Limpia lista anterior
+  listaReservas.innerHTML = "";
   if (reservaActiva.length === 0) {
     const li = document.createElement("li");
     li.innerText = "No hay pokemones en la reserva.";
@@ -71,7 +64,6 @@ const mostrarReservas = () => {
     const li = document.createElement("li");
     const noches = huesped.noches || 1;
     const subtotal = huesped.precioPorNoche * noches;
-    // Muestra nombre, noches y subtotal por ese pokemon
     li.innerHTML = `${huesped.nombre} — ${noches} ${noches === 1 ? "noche" : "noches"} — $${
       huesped.precioPorNoche
     } por noche — Subtotal: $${subtotal}`;
@@ -81,41 +73,51 @@ const mostrarReservas = () => {
 
 // #### Vaciar la reserva activa ####
 
-// Reinicia el array, actualiza la UI y borra del localStorage
 const vaciarReserva = () => {
   reservaActiva = [];
   guardarReserva();
   mostrarReservas();
   mostrarTotalReserva();
+
+  mostrarHuespedes();
+
   const divAgradecimiento = document.getElementById("agradecimiento");
   divAgradecimiento.innerText = "No hay reservas activas. ¡Esperamos verte pronto!";
   const divUltimoPokemonAgregado = document.getElementById("ultimoPokemonAgregado");
   divUltimoPokemonAgregado.innerText = "";
 };
 
-// #### Agregar huésped a la reserva ####
+// #### Añadir / quitar noches por huesped ####
 
-// Agrega un pokemon a la reserva y actualiza todo lo necesario
-const agregarReserva = (huesped) => {
-  const existenteIndex = reservaActiva.findIndex((p) => p.id === huesped.id);
-
-  if (existenteIndex !== -1) {
-    // Si ya está, incrementamos las noches
-    reservaActiva[existenteIndex].noches = (reservaActiva[existenteIndex].noches || 1) + 1;
+const sumarNoches = (huesped) => {
+  const idx = reservaActiva.findIndex((p) => p.id === huesped.id);
+  if (idx !== -1) {
+    reservaActiva[idx].noches = (reservaActiva[idx].noches || 1) + 1;
   } else {
-    // Si no está, agregamos noches
-    const nuevo = { ...huesped, noches: 1 };
-    reservaActiva.push(nuevo);
+    reservaActiva.push({ ...huesped, noches: 1 });
   }
-
+  guardarReserva();
   mostrarReservas();
   mostrarTotalReserva();
+};
+
+const restarNoches = (huesped) => {
+  const idx = reservaActiva.findIndex((p) => p.id === huesped.id);
+  if (idx === -1) return; // no está en reserva
+  const actuales = reservaActiva[idx].noches || 1;
+  if (actuales > 1) {
+    reservaActiva[idx].noches = actuales - 1;
+  } else {
+    // si llega a 0 noches, lo removemos
+    reservaActiva.splice(idx, 1);
+  }
   guardarReserva();
+  mostrarReservas();
+  mostrarTotalReserva();
 };
 
 // #### Mostrar lista de huéspedes (filtrados por tipo) ####
 
-// Muestra todos los Pokemon según el tipo seleccionado (o todos)
 function mostrarHuespedes(tipo = "todos") {
   listaPokemones.innerHTML = "";
 
@@ -123,42 +125,87 @@ function mostrarHuespedes(tipo = "todos") {
 
   huespedesFiltrados.forEach((huesped) => {
     const li = document.createElement("li");
-    const div = document.createElement("div");
-    const btn = document.createElement("button");
+    const infoDiv = document.createElement("div");
+    const controlesDiv = document.createElement("div");
 
-    li.id = huesped.id;
-    li.innerText = `${huesped.nombre} - $${huesped.precioPorNoche} por noche`;
-    btn.innerText = "Reservar";
+    // Elementos de control: - , contador, +
+    const btnMinus = document.createElement("button");
+    const spanNoches = document.createElement("span");
+    const btnPlus = document.createElement("button");
 
-    // Cuando se hace clic, se agrega a la reserva y se muestra un mensaje
-    btn.addEventListener("click", () => {
-      agregarReserva(huesped);
+    // Texto principal del item
+    const texto = document.createElement("span");
+    texto.innerText = `${huesped.nombre} - $${huesped.precioPorNoche} por noche `;
+    texto.style.marginRight = "10px";
+
+    // Inicializar contador según reservaActiva
+    const reservaExistente = reservaActiva.find((r) => r.id === huesped.id);
+    spanNoches.innerText = reservaExistente ? `${reservaExistente.noches}` : `0`;
+    spanNoches.style.display = "inline-block";
+    spanNoches.style.minWidth = "24px";
+    spanNoches.style.textAlign = "center";
+    spanNoches.style.margin = "0 6px";
+
+    btnMinus.innerText = "-";
+    btnMinus.setAttribute("aria-label", `Restar noches a ${huesped.nombre}`);
+    btnMinus.style.marginRight = "6px";
+
+    btnPlus.innerText = "+";
+    btnPlus.setAttribute("aria-label", `Sumar noches a ${huesped.nombre}`);
+    btnPlus.style.marginLeft = "6px";
+
+    // Handlers
+    btnPlus.addEventListener("click", () => {
+      sumarNoches(huesped);
+      // actualizar contador visible para este li
+      const registro = reservaActiva.find((r) => r.id === huesped.id);
+      spanNoches.innerText = registro ? registro.noches : 0;
+
       const divUltimoPokemonAgregado = document.getElementById("ultimoPokemonAgregado");
-
-      // Cuántas noches tiene ahora ese pokemon para el mensaje
-      const registro = reservaActiva.find((p) => p.id === huesped.id);
-      const noches = registro ? registro.noches : 1;
-      divUltimoPokemonAgregado.innerText = `¡${huesped.nombre} está reservado por ${noches} ${
+      const noches = registro ? registro.noches : 0;
+      divUltimoPokemonAgregado.innerText = `¡${huesped.nombre} reservado por ${noches} ${
         noches === 1 ? "noche" : "noches"
       }!`;
     });
 
-    li.appendChild(div);
-    div.appendChild(btn);
+    btnMinus.addEventListener("click", () => {
+      restarNoches(huesped);
+      const registro = reservaActiva.find((r) => r.id === huesped.id);
+      spanNoches.innerText = registro ? registro.noches : 0;
+
+      const divUltimoPokemonAgregado = document.getElementById("ultimoPokemonAgregado");
+      if (registro) {
+        const noches = registro.noches;
+        divUltimoPokemonAgregado.innerText = `${huesped.nombre} ahora tiene ${noches} ${
+          noches === 1 ? "noche" : "noches"
+        }.`;
+      } else {
+        divUltimoPokemonAgregado.innerText = `${huesped.nombre} fue removido de la reserva.`;
+      }
+    });
+
+    // Estructura en DOM
+    infoDiv.appendChild(texto);
+    controlesDiv.appendChild(btnMinus);
+    controlesDiv.appendChild(spanNoches);
+    controlesDiv.appendChild(btnPlus);
+
+    // Alineación simple
+    li.appendChild(infoDiv);
+    li.appendChild(controlesDiv);
+
     listaPokemones.appendChild(li);
   });
 }
 
 // #### Filtro por tipo de pokemon ####
 
-// Al cambiar el filtro, se actualiza la lista de huéspedes mostrados
 filtroTipo.addEventListener("change", () => {
   mostrarHuespedes(filtroTipo.value);
 });
 
 // #### Confirmar reserva ####
 
-// Genera y muestra el mensaje final de confirmación de reserva
 const confirmarReserva = (nombreHumano, email) => {
   const divAgradecimiento = document.getElementById("agradecimiento");
 
@@ -196,7 +243,7 @@ formularioConfirmarReserva.addEventListener("submit", (e) => {
 // Botón para vaciar la reserva
 btnVaciarReserva.addEventListener("click", vaciarReserva);
 
-// #### Inicializar página con datos guardados ####
+// #### Inicializar pagina con datos guardados ####
 
 mostrarHuespedes();
 mostrarReservas();
@@ -215,7 +262,6 @@ if (localStorage.getItem("darkMode") === "true") {
 // Alterna el modo oscuro y guarda la preferencia
 toggleBtn.addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
-
   const isDarkMode = document.body.classList.contains("dark-mode");
   localStorage.setItem("darkMode", isDarkMode);
 });
