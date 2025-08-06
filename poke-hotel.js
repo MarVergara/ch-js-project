@@ -22,7 +22,6 @@ const huespedes = [
 
 // #### Variables y elementos del DOM ####
 
-// reservaActiva guarda objetos con { nombre, tipo, id, precioPorNoche, noches }
 let reservaActiva = JSON.parse(localStorage.getItem("reservaActiva")) || [];
 
 const listaPokemones = document.getElementById("listaPokemones");
@@ -104,12 +103,11 @@ const sumarNoches = (huesped) => {
 
 const restarNoches = (huesped) => {
   const idx = reservaActiva.findIndex((p) => p.id === huesped.id);
-  if (idx === -1) return; // no está en reserva
+  if (idx === -1) return;
   const actuales = reservaActiva[idx].noches || 1;
   if (actuales > 1) {
     reservaActiva[idx].noches = actuales - 1;
   } else {
-    // si llega a 0 noches, lo removemos
     reservaActiva.splice(idx, 1);
   }
   guardarReserva();
@@ -187,13 +185,11 @@ function mostrarHuespedes(tipo = "todos") {
       }
     });
 
-    // Estructura en DOM
     infoDiv.appendChild(texto);
     controlesDiv.appendChild(btnMinus);
     controlesDiv.appendChild(spanNoches);
     controlesDiv.appendChild(btnPlus);
 
-    // Alineación simple
     li.appendChild(infoDiv);
     li.appendChild(controlesDiv);
 
@@ -232,36 +228,26 @@ const confirmarReserva = (nombreHumano, email) => {
 
 // ### Manejo del envío del formulario ####
 
-// Captura los datos del formulario y llama a confirmarReserva
 formularioConfirmarReserva.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const information = new FormData(e.target);
   const submit = Object.fromEntries(information);
-  console.log(submit);
 
-  formularioConfirmarReserva.addEventListener("submit", (e) => {
-    e.preventDefault();
+  // Generar mensaje
+  let mensajeHTML = `<p>¡Gracias <strong>${submit.nombreHumano.toUpperCase()}</strong> por tu reserva!</p>
+                   <p>Te enviamos un correo a <em>${submit.email}</em> con los detalles de la reserva.</p>`;
 
-    const information = new FormData(e.target);
-    const submit = Object.fromEntries(information);
-
-    // Generar mensaje
-    let mensajeHTML = `<p>¡Gracias <strong>${submit.nombreHumano.toUpperCase()}</strong> por tu reserva!</p>
-                     <p>Te enviamos un correo a <em>${submit.email}</em> con los detalles de la reserva.</p>`;
-
-    // Mostrar popup con SweetAlert
-    Swal.fire({
-      title:
-        'Ya estamos esperando a tus Pokémon <img src="assets/snorlax.png" alt="Snorlax" style="height:50px; margin-right:10px;">',
-      html: mensajeHTML,
-      icon: "success",
-      confirmButtonText: "Listo",
-    });
-
-    // Mostramos también el mensaje en el div
-    confirmarReserva(submit.nombreHumano.toUpperCase(), submit.email);
+  // Mostrar popup con SweetAlert
+  Swal.fire({
+    title:
+      'Ya estamos esperando a tus Pokémon <img src="assets/snorlax.png" alt="Snorlax" style="height:50px; margin-right:10px;">',
+    html: mensajeHTML,
+    icon: "success",
+    confirmButtonText: "Listo",
   });
+
+  confirmarReserva(submit.nombreHumano.toUpperCase(), submit.email);
 });
 
 // Botón para vaciar la reserva
@@ -291,11 +277,12 @@ toggleBtn.addEventListener("click", () => {
 });
 
 // ############### Toastify para notificaciones ###############
+
 function mostrarToast(mensaje, color = "#4CAF50") {
   Toastify({
     text: mensaje,
     duration: 2000,
-    gravity: "top", // left, center o right
+    gravity: "top",
     backgroundColor: color,
     stopOnFocus: true,
   }).showToast();
