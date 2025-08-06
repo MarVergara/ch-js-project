@@ -222,7 +222,7 @@ const confirmarReserva = (nombreHumano, email) => {
       mensaje += `<li>${huesped.nombre} — ${noches} ${noches === 1 ? "noche" : "noches"} — Subtotal: $${subtotal}</li>`;
     });
     mensaje += `</ul>`;
-    mensaje += `<p><strong>Total a pagar: $${calcularTotalAPagar()}</strong></p>`;
+    mensaje += `<p><strong>Pagaste: $${calcularTotalAPagar()}</strong></p>`;
   } else {
     mensaje += `<em>No registraste ningún pokemon como huésped.</em>`;
   }
@@ -240,7 +240,28 @@ formularioConfirmarReserva.addEventListener("submit", (e) => {
   const submit = Object.fromEntries(information);
   console.log(submit);
 
-  confirmarReserva(submit.nombreHumano.toUpperCase(), submit.email);
+  formularioConfirmarReserva.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const information = new FormData(e.target);
+    const submit = Object.fromEntries(information);
+
+    // Generar mensaje
+    let mensajeHTML = `<p>¡Gracias <strong>${submit.nombreHumano.toUpperCase()}</strong> por tu reserva!</p>
+                     <p>Te enviamos un correo a <em>${submit.email}</em> con los detalles de la reserva.</p>`;
+
+    // Mostrar popup con SweetAlert
+    Swal.fire({
+      title:
+        'Ya estamos esperando a tus Pokémon <img src="assets/snorlax.png" alt="Snorlax" style="height:50px; margin-right:10px;">',
+      html: mensajeHTML,
+      icon: "success",
+      confirmButtonText: "Listo",
+    });
+
+    // Mostramos también el mensaje en el div
+    confirmarReserva(submit.nombreHumano.toUpperCase(), submit.email);
+  });
 });
 
 // Botón para vaciar la reserva

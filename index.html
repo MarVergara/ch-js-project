@@ -5,6 +5,7 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Hotel PokeCasa</title>
+	<link rel="icon" type="image/png" href="assets/pokeball.jpg">
 
 	<!-- Google Fonts -->
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
@@ -17,11 +18,17 @@
 	<main>
 		<!-- NAVBAR -->
 		<nav class="navbar">
-			<div class="navbar-left"></div>
+			<div class="navbar-left" style="display: flex; align-items: center;">
+				<img src="assets/charmander-logo.png" alt="Logo Charmander" style="height:60px; margin-right:10px;">
+				<span style="font-weight: bold; font-size: 1.2rem; color: #ff6600;">
+					¡Atrapa tu reserva!
+				</span>
+			</div>
+
 			<div class="navbar-right">
 				<a href="assets/map-pokehotel.png" target="_blank"
 					style="margin-right:10px; text-decoration: none; color: inherit;">
-					Mapa
+					Ubicación
 				</a>
 				<button id="darkModeToggle">☀️ / 🌚</button>
 				<a href="https://github.com/MarVergara/ch-js-project" target="_blank" aria-label="GitHub"
@@ -46,7 +53,7 @@
 
 		<!-- HEADER -->
 		<header>
-			<h1 id="indexH1">Hotel PokeCasa 🏨</h1>
+			<h1 id="indexH1">Hotel PokeCasa 🏨 </h1>
 			<h2>Un lugar cómodo y seguro para que tus pokemon descansen</h2>
 		</header>
 
@@ -114,7 +121,8 @@
 			</section>
 		</section>
 	</main>
-
+	<!-- SweetAlert-->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<!-- Toastify CSS -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 	<!-- Toastify JS -->
