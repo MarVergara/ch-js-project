@@ -25,8 +25,9 @@
 
 ## 📸 Vista Pages
 
-- [GitHub Pages - Hotel PokeCasa](https://marvergara.github.io/ch-js-project/)
+- [GitHub Pages - Hotel PokeCasa](https://marvergara.github.io/ProyectoFinal-Vergara/)
 
 ---
 
 ¡Gracias por visitar Hotel PokeCasa! Esperamos que disfrutes hospedando a tus Pokémon favoritos.  
+
