@@ -10,7 +10,7 @@ const filtroTipo = document.getElementById("filtroTipo");
 const listaReservas = document.getElementById("listaReservas");
 const formularioConfirmarReserva = document.getElementById("formularioReserva");
 const btnVaciarReserva = document.getElementById("btnVaciarReserva");
-
+const btnNuevaReserva = document.getElementById("btnNuevaReserva");
 // #### Funciones auxiliares ####
 
 const calcularTotalAPagar = () => {
@@ -232,6 +232,9 @@ formularioConfirmarReserva.addEventListener("submit", (e) => {
     seccionesReservas.forEach((seccion) => {
       seccion.classList.add("oculto");
     });
+
+    // Mostrar botón para nueva reserva
+    btnNuevaReserva.style.display = "inline-block";
   });
 
   confirmarReserva(submit.nombreHumano.toUpperCase(), submit.email);
@@ -239,6 +242,34 @@ formularioConfirmarReserva.addEventListener("submit", (e) => {
 
 // Botón para vaciar la reserva
 btnVaciarReserva.addEventListener("click", vaciarReserva);
+
+// Botón para hacer nueva reserva
+btnNuevaReserva.addEventListener("click", () => {
+  // Mostrar secciones ocultas
+  const seccionesReservas = document.querySelectorAll(".reservas-activas");
+  seccionesReservas.forEach((seccion) => {
+    seccion.classList.remove("oculto");
+  });
+
+  // Vaciar reserva activa y localStorage
+  reservaActiva = [];
+  guardarReserva();
+
+  // Limpiar mensaje de agradecimiento
+  const divAgradecimiento = document.getElementById("agradecimiento");
+  divAgradecimiento.innerHTML = "";
+
+  // Ocultar botón de nueva reserva
+  btnNuevaReserva.style.display = "none";
+
+  // Resetear formulario
+  formularioConfirmarReserva.reset();
+
+  // Actualizar lista y totales para que refleje que no hay reservas
+  mostrarReservas();
+  mostrarTotalReserva();
+  mostrarHuespedes(filtroTipo.value);
+});
 
 // ############### Fetch para cargar huespedes.json ###############
 
