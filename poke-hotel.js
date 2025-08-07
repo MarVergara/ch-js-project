@@ -265,6 +265,10 @@ btnNuevaReserva.addEventListener("click", () => {
   // Resetear formulario
   formularioConfirmarReserva.reset();
 
+  // Limpiar último mensaje de Pokémon agregado
+  const divUltimoPokemonAgregado = document.getElementById("ultimoPokemonAgregado");
+  divUltimoPokemonAgregado.innerText = "";
+
   // Actualizar lista y totales para que refleje que no hay reservas
   mostrarReservas();
   mostrarTotalReserva();
