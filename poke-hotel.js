@@ -228,10 +228,10 @@ formularioConfirmarReserva.addEventListener("submit", (e) => {
     confirmButtonText: "Listo",
   }).then(() => {
     // Ocultar la sección de reservas activas (por clase)
-    const seccionReservas = document.querySelector(".reservas-activas");
-    if (seccionReservas) {
-      seccionReservas.classList.add("oculto");
-    }
+    const seccionesReservas = document.querySelectorAll(".reservas-activas");
+    seccionesReservas.forEach((seccion) => {
+      seccion.classList.add("oculto");
+    });
   });
 
   confirmarReserva(submit.nombreHumano.toUpperCase(), submit.email);
