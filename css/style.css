@@ -162,3 +162,8 @@ body.dark-mode #agradecimiento {
 body.dark-mode .separador {
     border-top: 2px dashed #555;
 }
+
+
+.oculto {
+    display: none;
+}

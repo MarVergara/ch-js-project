@@ -86,40 +86,40 @@
 				<div id="ultimoPokemonAgregado"></div>
 				<div><button id="btnVaciarReserva">Vaciar reserva</button></div>
 			</div>
-
 			<hr class="separador" />
 
-			<!-- CONFIRMACIÓN DE RESERVA -->
-			<section class="confirmacion-reserva">
-				<h3>Confirmá tu reserva</h3>
-				<div id="totalReserva"></div>
-				<div class="bloque-formularioReserva">
-					<p>Necesitamos registrar tus datos para confirmar la compra:</p>
-					<form id="formularioReserva" class="formulario-reserva">
-						<div class="form-group">
-							<label for="nombreHumano">Tu nombre completo:</label>
-							<input type="text" id="nombreHumano" name="nombreHumano" required
-								placeholder="Ash Ketchum" />
-						</div>
-
-						<div class="form-group">
-							<label for="email">Tu email:</label>
-							<input type="email" id="email" name="email" required placeholder="ash@acme.com" />
-						</div>
-
-						<div class="form-group">
-							<label for="telefono">Tu teléfono:</label>
-							<input type="tel" id="telefono" name="telefono" placeholder="111 123 456" />
-						</div>
-
-						<div class="buttons form-buttons">
-							<input type="submit" id="btnConfirmarReserva" value="Confirmar reserva" />
-						</div>
-					</form>
-				</div>
-				<div id="agradecimiento"></div>
-			</section>
 		</section>
+
+		<!-- CONFIRMACIÓN DE RESERVA -->
+		<section class="confirmacion-reserva">
+			<h3>Confirmá tu reserva</h3>
+			<div id="totalReserva"></div>
+			<div class="bloque-formularioReserva">
+				<p>Necesitamos registrar tus datos para confirmar la compra:</p>
+				<form id="formularioReserva" class="formulario-reserva">
+					<div class="form-group">
+						<label for="nombreHumano">Tu nombre completo:</label>
+						<input type="text" id="nombreHumano" name="nombreHumano" required placeholder="Ash Ketchum" />
+					</div>
+
+					<div class="form-group">
+						<label for="email">Tu email:</label>
+						<input type="email" id="email" name="email" required placeholder="ash@acme.com" />
+					</div>
+
+					<div class="form-group">
+						<label for="telefono">Tu teléfono:</label>
+						<input type="tel" id="telefono" name="telefono" placeholder="111 123 456" />
+					</div>
+
+					<div class="buttons form-buttons">
+						<input type="submit" id="btnConfirmarReserva" value="Confirmar reserva" />
+					</div>
+				</form>
+			</div>
+			<div id="agradecimiento"></div>
+		</section>
+
 	</main>
 	<!-- SweetAlert-->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
