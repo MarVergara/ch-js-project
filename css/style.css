@@ -167,3 +167,43 @@ body.dark-mode .separador {
 .oculto {
     display: none;
 }
+
+
+/* ------------------ MEDIA QUERIES PARA DISPOSITIVOS MÓVILES ------------------ */
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .navbar-right {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    main {
+        padding: 1rem;
+    }
+
+    .formulario-reserva {
+        padding: 1rem;
+    }
+
+    .buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #listaPokemones li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    #listaPokemones li button {
+        margin-left: 0;
+    }
+}
