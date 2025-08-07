@@ -1,27 +1,8 @@
 // ############# Poke Hotel - Hospedaje de Pokemon #############
 
-// Lista de huéspedes (pokemon) que aceptamos en el hotel
-
-const huespedes = [
-  { nombre: "Charmander 🔥", tipo: "fuego", id: 4, precioPorNoche: 50 },
-  { nombre: "Vulpix 🔥", tipo: "fuego", id: 37, precioPorNoche: 45 },
-  { nombre: "Growlithe 🔥", tipo: "fuego", id: 58, precioPorNoche: 55 },
-  { nombre: "Ponyta 🔥", tipo: "fuego", id: 77, precioPorNoche: 40 },
-  { nombre: "Magmar 🔥", tipo: "fuego", id: 126, precioPorNoche: 60 },
-  { nombre: "Squirtle 💧", tipo: "agua", id: 7, precioPorNoche: 45 },
-  { nombre: "Psyduck 💧", tipo: "agua", id: 54, precioPorNoche: 50 },
-  { nombre: "Poliwag 💧", tipo: "agua", id: 60, precioPorNoche: 40 },
-  { nombre: "Horsea 💧", tipo: "agua", id: 116, precioPorNoche: 50 },
-  { nombre: "Staryu 💧", tipo: "agua", id: 120, precioPorNoche: 35 },
-  { nombre: "Bulbasaur 🌱", tipo: "planta", id: 1, precioPorNoche: 45 },
-  { nombre: "Oddish 🌱", tipo: "planta", id: 43, precioPorNoche: 35 },
-  { nombre: "Bellsprout 🌱", tipo: "planta", id: 69, precioPorNoche: 30 },
-  { nombre: "Exeggcute 🌱", tipo: "planta", id: 102, precioPorNoche: 40 },
-  { nombre: "Tangela 🌱", tipo: "planta", id: 114, precioPorNoche: 50 },
-];
-
 // #### Variables y elementos del DOM ####
 
+let huespedes = []; // Se llenará desde huespedes.json
 let reservaActiva = JSON.parse(localStorage.getItem("reservaActiva")) || [];
 
 const listaPokemones = document.getElementById("listaPokemones");
@@ -253,23 +234,36 @@ formularioConfirmarReserva.addEventListener("submit", (e) => {
 // Botón para vaciar la reserva
 btnVaciarReserva.addEventListener("click", vaciarReserva);
 
-// #### Inicializar pagina con datos guardados ####
+// ############### Fetch para cargar huespedes.json ###############
 
-mostrarHuespedes();
+fetch("huespedes.json")
+  .then((res) => {
+    if (!res.ok) {
+      throw new Error("No se pudo cargar huespedes.json");
+    }
+    return res.json();
+  })
+  .then((data) => {
+    huespedes = data;
+    mostrarHuespedes();
+  })
+  .catch((error) => {
+    console.error("Error cargando huéspedes:", error);
+    mostrarToast("Error al cargar los huéspedes", "#f44336");
+  });
+
+// Mostrar reservas si hay datos previos
 mostrarReservas();
 mostrarTotalReserva();
 
 // ############### Dark Mode en navbar ###############
 
-// Activa el modo oscuro al hacer clic en el botón de la barra de navegación
 const toggleBtn = document.getElementById("darkModeToggle");
 
-// Aplica el modo oscuro si está guardado en localStorage
 if (localStorage.getItem("darkMode") === "true") {
   document.body.classList.add("dark-mode");
 }
 
-// Alterna el modo oscuro y guarda la preferencia
 toggleBtn.addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
   const isDarkMode = document.body.classList.contains("dark-mode");

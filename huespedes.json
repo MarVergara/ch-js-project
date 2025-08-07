@@ -1,0 +1,92 @@
+[
+  {
+    "nombre": "Charmander 🔥",
+    "tipo": "fuego",
+    "id": 4,
+    "precioPorNoche": 50
+  },
+  {
+    "nombre": "Vulpix 🔥",
+    "tipo": "fuego",
+    "id": 37,
+    "precioPorNoche": 45
+  },
+  {
+    "nombre": "Growlithe 🔥",
+    "tipo": "fuego",
+    "id": 58,
+    "precioPorNoche": 55
+  },
+  {
+    "nombre": "Ponyta 🔥",
+    "tipo": "fuego",
+    "id": 77,
+    "precioPorNoche": 40
+  },
+  {
+    "nombre": "Magmar 🔥",
+    "tipo": "fuego",
+    "id": 126,
+    "precioPorNoche": 60
+  },
+  {
+    "nombre": "Squirtle 💧",
+    "tipo": "agua",
+    "id": 7,
+    "precioPorNoche": 45
+  },
+  {
+    "nombre": "Psyduck 💧",
+    "tipo": "agua",
+    "id": 54,
+    "precioPorNoche": 50
+  },
+  {
+    "nombre": "Poliwag 💧",
+    "tipo": "agua",
+    "id": 60,
+    "precioPorNoche": 40
+  },
+  {
+    "nombre": "Horsea 💧",
+    "tipo": "agua",
+    "id": 116,
+    "precioPorNoche": 50
+  },
+  {
+    "nombre": "Staryu 💧",
+    "tipo": "agua",
+    "id": 120,
+    "precioPorNoche": 35
+  },
+  {
+    "nombre": "Bulbasaur 🌱",
+    "tipo": "planta",
+    "id": 1,
+    "precioPorNoche": 45
+  },
+  {
+    "nombre": "Oddish 🌱",
+    "tipo": "planta",
+    "id": 43,
+    "precioPorNoche": 35
+  },
+  {
+    "nombre": "Bellsprout 🌱",
+    "tipo": "planta",
+    "id": 69,
+    "precioPorNoche": 30
+  },
+  {
+    "nombre": "Exeggcute 🌱",
+    "tipo": "planta",
+    "id": 102,
+    "precioPorNoche": 40
+  },
+  {
+    "nombre": "Tangela 🌱",
+    "tipo": "planta",
+    "id": 114,
+    "precioPorNoche": 50
+  }
+]
